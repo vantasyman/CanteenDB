@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家管理后台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body"> <header class="dashboard-header">
+        <div class="header-content">
+            <h1>商家管理后台</h1>
+            <div class="user-info">
+                <button id="run-kmeans-btn" class="btn-primary-outline">
+                    &#9874; 运行K-Means
+                </button>
+                <span>欢迎, <strong id="merchant-name-display">商家</strong>!</span>
+                <button id="logout-btn" class="btn-secondary">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-main-single"> <div class="content-panel">
+            <h2>个性化折扣规则管理</h2>
+            <p>请为 5 个 K-Means 用户等级设置折扣率 (例如: 1.0 为原价, 0.9 为 9 折, 1.1 为涨价 10%)</p>
+            
+            <form id="discount-form" class="discount-form-container">
+                
+                <div class="form-group">
+                    <label for="level-1">Level 1 (最低价值用户)</label>
+                    <input type="number" step="0.01" id="level-1" data-level="1" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="level-2">Level 2</label>
+                    <input type="number" step="0.01" id="level-2" data-level="2" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="level-3">Level 3 (中等价值用户)</label>
+                    <input type="number" step="0.01" id="level-3" data-level="3" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="level-4">Level 4</label>
+                    <input type="number" step="0.01" id="level-4" data-level="4" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="level-5">Level 5 (最高价值用户)</label>
+                    <input type="number" step="0.01" id="level-5" data-level="5" class="form-input">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">保存更改</button>
+                    <div id="save-status" class="save-status-msg"></div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="content-panel" style="margin-top: 30px;">
+            <h2>实时订单 (待处理)</h2>
+            <div id="pending-orders-list">
+                </div>
+        </div>
+
+    </main>
+    
+    <script src="{{ url_for('static', filename='merchant_dashboard.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+name: canteen_db
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - Flask
+      - Flask-SQLAlchemy
+      - scikit-learn
+      - pandas
+      - mysql-connector-python

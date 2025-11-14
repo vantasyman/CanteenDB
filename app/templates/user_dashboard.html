@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户主页 - 食堂</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body"> <header class="dashboard-header">
+        <div class="header-content">
+            <h1>食堂个性化定价系统</h1>
+            <div class="user-info">
+                
+                <button id="run-kmeans-btn" class="btn-primary-outline">
+                    &#9874; 运行K-Means
+                </button>
+                <span>欢迎, <strong id="username-display">Alice</strong>!</span>
+                <button id="logout-btn" class="btn-secondary">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        
+        <div class="content-panel">
+            <h2>选择餐厅</h2>
+            <div id="restaurant-list" class="restaurant-grid">
+                </div>
+        </div>
+
+        <aside class="sidebar-panel">
+            <h2>我的订单</h2>
+            <div id="cart">
+                <ul id="cart-items">
+                    </ul>
+                <div class="cart-summary">
+                    <span>基础总价:</span>
+                    <strong id="cart-total">￥0.00</strong>
+                </div>
+                <button id="place-order-btn" class="submit-btn" disabled>立即下单</button>
+                <div id="final-price-msg" class="final-price"></div>
+            </div>
+        </aside>
+
+    </main>
+
+    <div id="dishes-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <h2 id="modal-restaurant-name">餐厅菜品</h2>
+            <div id="modal-dishes-list">
+                </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>食堂个性化定价系统 - 登录/注册</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            
+            <div class="tab-switcher" id="tab-switcher-4"> <button class="tab-btn active" data-target="user-login">用户登录</button>
+                <button class="tab-btn" data-target="merchant-login">商家登录</button>
+                <button class="tab-btn" data-target="user-register">用户注册</button>
+                <button class="tab-btn" data-target="merchant-register">商家注册</button>
+            </div>
+
+            <div class="form-content">
+                
+                <div id="user-login" class="form-panel active">
+                    <h2>欢迎回来</h2>
+                    <form id="user-login-form">
+                        <div class="input-group">
+                            <label for="user-username">用户名</label>
+                            <input type="text" id="user-username" name="username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="user-password">密码</label>
+                            <input type="password" id="user-password" name="password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">登 录</button>
+                    </form>
+                </div>
+
+                <div id="merchant-login" class="form-panel">
+                    <h2>商家后台</h2>
+                    <form id="merchant-login-form">
+                        <div class="input-group">
+                            <label for="merchant-username">商家用户名</label>
+                            <input type="text" id="merchant-username" name="username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="merchant-password">商家密码</label>
+                            <input type="password" id="merchant-password" name="password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">登 录</button>
+                    </form>
+                </div>
+
+                <div id="user-register" class="form-panel">
+                    <h2>创建用户账户</h2>
+                    <form id="user-register-form">
+                        <div class="input-group">
+                            <label for="user-reg-username">用户名</label>
+                            <input type="text" id="user-reg-username" name="username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="user-reg-password">密码</label>
+                            <input type="password" id="user-reg-password" name="password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="user-reg-area">所在区域 (可选)</label>
+                            <input type="text" id="user-reg-area" name="area">
+                        </div>
+                        <button type="submit" class="submit-btn">注 册</button>
+                    </form>
+                </div>
+
+                <div id="merchant-register" class="form-panel">
+                    <h2>创建商家账户</h2>
+                    <form id="merchant-register-form">
+                        <div class="input-group">
+                            <label for="mer-reg-username">商家用户名</label>
+                            <input type="text" id="mer-reg-username" name="username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="mer-reg-password">密码</label>
+                            <input type="password" id="mer-reg-password" name="password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="mer-reg-name">餐厅名称</label>
+                            <input type="text" id="mer-reg-name" name="name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="mer-reg-location">餐厅位置 (可选)</label>
+                            <input type="text" id="mer-reg-location" name="location">
+                        </div>
+                        <button type="submit" class="submit-btn">注 册</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>
