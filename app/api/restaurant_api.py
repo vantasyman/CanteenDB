@@ -1,9 +1,10 @@
 # /app/api/restaurant_api.py
 from . import bp  # 从 app/api/__init__.py 导入 'bp' 蓝图
 from app import db
-from app.models import Restaurant, MerchantDiscountRule, Order, OrderItem, User, Dish
+from app.models import Restaurant, MerchantDiscountRule, Order, OrderItem, User, Dish,UserPriceLevel
 from flask import request, jsonify
 from sqlalchemy.orm import joinedload
+from sqlalchemy import func
 @bp.route('/restaurant/login', methods=['POST'])
 def restaurant_login():
     """
@@ -216,4 +217,49 @@ def update_order_status(order_id):
         }), 200
     except Exception as e:
         db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+    
+@bp.route('/restaurant/<int:restaurant_id>/stats', methods=['GET'])
+def get_restaurant_stats(restaurant_id):
+    """
+    (新增) 真实数据接口：为前端 ECharts 提供数据库里的实时统计
+    """
+    try:
+        # 1. 统计热销菜品 (Top 5)
+        # SQL逻辑: select Name, sum(Quantity) from OrderItem join Dish group by DishID order by sum desc
+        top_dishes_query = db.session.query(
+            Dish.Name,
+            func.sum(OrderItem.Quantity).label('total_qty')
+        ).join(OrderItem, OrderItem.DishID == Dish.DishID)\
+         .filter(Dish.RestaurantID == restaurant_id)\
+         .group_by(Dish.Name)\
+         .order_by(func.sum(OrderItem.Quantity).desc())\
+         .limit(5).all()
+
+        # 2. 统计用户等级分布
+        # SQL逻辑: select PriceLevel, count(*) from UserPriceLevel where RestaurantID=... group by PriceLevel
+        level_dist_query = db.session.query(
+            UserPriceLevel.PriceLevel,
+            func.count(UserPriceLevel.UserID)
+        ).filter_by(RestaurantID=restaurant_id)\
+         .group_by(UserPriceLevel.PriceLevel).all()
+
+        # 3. 格式化为前端 ECharts 需要的 JSON
+        stats_data = {
+            "dishes_names": [r[0] for r in top_dishes_query], # ['红烧肉', '米饭'...]
+            "dishes_values": [int(r[1]) for r in top_dishes_query], # [100, 80...]
+            "levels_data": [
+                {"name": f"Level {r[0]}", "value": r[1]} for r in level_dist_query
+            ]
+        }
+        
+        # 如果没有数据（新店开张），给点默认值防止前端报错
+        if not stats_data["dishes_names"]:
+            stats_data["dishes_names"] = ["暂无数据"]
+            stats_data["dishes_values"] = [0]
+            
+        return jsonify(stats_data), 200
+
+    except Exception as e:
+        print(f"Stats Error: {e}")
         return jsonify({"error": str(e)}), 500

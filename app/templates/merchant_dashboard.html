@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商家管理后台</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body class="dashboard-body"> <header class="dashboard-header">
+<body class="dashboard-body"> 
+    
+    <header class="dashboard-header">
         <div class="header-content">
             <h1>商家管理后台</h1>
             <div class="user-info">
@@ -20,49 +23,45 @@
         </div>
     </header>
 
-    <main class="dashboard-main-single"> <div class="content-panel">
-            <h2>个性化折扣规则管理</h2>
-            <p>请为 5 个 K-Means 用户等级设置折扣率 (例如: 1.0 为原价, 0.9 为 9 折, 1.1 为涨价 10%)</p>
-            
-            <form id="discount-form" class="discount-form-container">
-                
-                <div class="form-group">
-                    <label for="level-1">Level 1 (最低价值用户)</label>
-                    <input type="number" step="0.01" id="level-1" data-level="1" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label for="level-2">Level 2</label>
-                    <input type="number" step="0.01" id="level-2" data-level="2" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label for="level-3">Level 3 (中等价值用户)</label>
-                    <input type="number" step="0.01" id="level-3" data-level="3" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label for="level-4">Level 4</label>
-                    <input type="number" step="0.01" id="level-4" data-level="4" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label for="level-5">Level 5 (最高价值用户)</label>
-                    <input type="number" step="0.01" id="level-5" data-level="5" class="form-input">
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="submit-btn">保存更改</button>
-                    <div id="save-status" class="save-status-msg"></div>
-                </div>
-
-            </form>
+    <main class="dashboard-main-single"> 
+        
+        <div class="content-panel" style="margin-bottom: 30px;">
+            <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px;">
+                <h2 style="margin: 0;">📊 实时经营数据 (DB直连)</h2>
+            </div>
+            <div id="charts-container" style="display: flex; gap: 20px; height: 350px;">
+                <div id="chart-top-dishes" style="flex: 1; height: 100%;"></div>
+                <div id="chart-user-levels" style="flex: 1; height: 100%;"></div>
+            </div>
         </div>
 
-        <div class="content-panel" style="margin-top: 30px;">
-            <h2>实时订单 (待处理)</h2>
-            <div id="pending-orders-list">
+        <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+            
+            <div class="content-panel" style="flex: 1; background-color: #fff3cd; border: 1px solid #ffeeba;">
+                <h2 style="margin-top: 0; color: #856404;">🔔 待接单</h2>
+                <div id="pending-orders-list"></div>
+            </div>
+
+            <div class="content-panel" style="flex: 1; background-color: #d4edda; border: 1px solid #c3e6cb;">
+                <h2 style="margin-top: 0; color: #155724;">👨‍🍳 制作中 (已接单)</h2>
+                <div id="processing-orders-list"></div>
+            </div>
+
+        </div>
+
+        <div class="content-panel">
+            <h2 style="margin-top: 0;">个性化折扣规则管理</h2>
+            <form id="discount-form" class="discount-form-container">
+                <div class="form-group"><label>Level 1</label><input type="number" step="0.01" id="level-1" data-level="1" class="form-input"></div>
+                <div class="form-group"><label>Level 2</label><input type="number" step="0.01" id="level-2" data-level="2" class="form-input"></div>
+                <div class="form-group"><label>Level 3</label><input type="number" step="0.01" id="level-3" data-level="3" class="form-input"></div>
+                <div class="form-group"><label>Level 4</label><input type="number" step="0.01" id="level-4" data-level="4" class="form-input"></div>
+                <div class="form-group"><label>Level 5</label><input type="number" step="0.01" id="level-5" data-level="5" class="form-input"></div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">💾 保存规则</button>
+                    <div id="save-status" class="save-status-msg"></div>
                 </div>
+            </form>
         </div>
 
     </main>
